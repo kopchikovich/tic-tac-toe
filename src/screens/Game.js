@@ -1,17 +1,19 @@
 import React, { useReducer, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert, SafeAreaView, StyleSheet, View, Button } from 'react-native';
-import Field from '../components/Field';
 import {
   CROSS,
   ZERO,
   MOVE,
   RELOAD,
   STOP,
+  RESULT,
   MAX_MOVES,
   MOVE_DELAY,
   WIN_PATTERNS,
 } from '../config/constants';
 import { getPairs, randomize } from '../utils';
+import { Field } from '../components';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -85,6 +87,30 @@ const usePositions = (field) => {
   return { zeroPositions, crossPositions, emptyPositions };
 };
 
+const saveResult = async (winner) => {
+  const oldResult = await AsyncStorage.getItem(RESULT);
+  if (!oldResult) {
+    AsyncStorage.setItem(
+      RESULT,
+      JSON.stringify({
+        win: {
+          [CROSS]: winner === CROSS ? 1 : 0,
+          [ZERO]: winner === ZERO ? 1 : 0,
+        },
+        draw: winner === undefined ? 1 : 0,
+      }),
+    );
+  } else if (winner) {
+    const result = JSON.parse(oldResult);
+    result.win[winner] += 1;
+    AsyncStorage.setItem(RESULT, JSON.stringify(result));
+  } else {
+    const result = JSON.parse(oldResult);
+    result.draw += 1;
+    AsyncStorage.setItem(RESULT, JSON.stringify(result));
+  }
+};
+
 const GameScreen = () => {
   const [state, dispatch] = useReducer(reducer, makeInitialState());
 
@@ -100,8 +126,10 @@ const GameScreen = () => {
     if (isWin) {
       dispatch({ type: STOP });
       Alert.alert(verifiable + ' win!');
+      saveResult(verifiable);
     } else if (state.moveCounter >= MAX_MOVES) {
       Alert.alert('Draw!');
+      saveResult();
     }
     return isWin;
   };

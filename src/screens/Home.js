@@ -1,10 +1,19 @@
 import React from 'react';
-import {Button, Text, SafeAreaView, StyleSheet} from 'react-native';
+import { Button, SafeAreaView, StyleSheet } from 'react-native';
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <Button title="START GAME" onPress={() => navigation.navigate('Game')} />
+      <Button
+        style={styles.button}
+        title="START GAME"
+        onPress={() => navigation.navigate('Game')}
+      />
+      <Button
+        style={styles.button}
+        title="VIEW RESULTS"
+        onPress={() => navigation.navigate('Result')}
+      />
     </SafeAreaView>
   );
 };
@@ -14,6 +23,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  button: {
+    marginTop: 5,
   },
 });
 

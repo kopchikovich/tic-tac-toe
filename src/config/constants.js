@@ -3,6 +3,7 @@ export const ZERO = 'ZERO';
 export const MOVE = 'MOVE';
 export const RELOAD = 'RELOAD';
 export const STOP = 'STOP';
+export const RESULT = 'RESULT';
 export const MAX_MOVES = 9;
 export const MOVE_DELAY = 1000;
 
