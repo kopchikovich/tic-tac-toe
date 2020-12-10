@@ -1,17 +1,13 @@
 import React from 'react';
-import { Button, SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import { Button } from '../components';
 
 const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
+      <Button title="START GAME" onPress={() => navigation.navigate('Game')} />
       <Button
-        style={styles.button}
-        title="START GAME"
-        onPress={() => navigation.navigate('Game')}
-      />
-      <Button
-        style={styles.button}
-        title="VIEW RESULTS"
+        title="RESULTS"
         onPress={() => navigation.navigate('Result')}
       />
     </SafeAreaView>

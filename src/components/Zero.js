@@ -1,15 +1,16 @@
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 
 const Zero = () => {
-  return <Text style={styles.item}>O</Text>;
+  return (
+    <Image source={require('../../assets/zero.png')} style={styles.item} />
+  );
 };
 
 const styles = StyleSheet.create({
   item: {
-    fontSize: 60,
-    color: 'blue',
-    fontWeight: 'bold',
+    width: 67,
+    height: 67,
   },
 });
 

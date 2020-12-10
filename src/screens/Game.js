@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Alert, SafeAreaView, StyleSheet, View, Button } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet, View } from 'react-native';
 import {
   CROSS,
   ZERO,
@@ -13,7 +13,7 @@ import {
   WIN_PATTERNS,
 } from '../config/constants';
 import { getPairs, randomize } from '../utils';
-import { Field } from '../components';
+import { Field, Button } from '../components';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -111,7 +111,7 @@ const saveResult = async (winner) => {
   }
 };
 
-const GameScreen = () => {
+const GameScreen = ({ navigation }) => {
   const [state, dispatch] = useReducer(reducer, makeInitialState());
 
   const checkWin = () => {
@@ -191,11 +191,14 @@ const GameScreen = () => {
     <SafeAreaView style={styles.container}>
       <Field content={state.field} onPress={makeMove} />
       {state.moveCounter >= MAX_MOVES && (
-        <View style={styles.reloadBtn}>
-          <Button
-            title="Start again?"
-            onPress={() => dispatch({ type: RELOAD })}
-          />
+        <View>
+          <View style={styles.reloadBtn}>
+            <Button
+              title="PLAY AGAIN?"
+              onPress={() => dispatch({ type: RELOAD })}
+            />
+            <Button title="MENU" onPress={() => navigation.goBack()} />
+          </View>
         </View>
       )}
     </SafeAreaView>
@@ -210,7 +213,8 @@ const styles = StyleSheet.create({
   },
   reloadBtn: {
     position: 'absolute',
-    bottom: 100,
+    bottom: -100,
+    left: -100,
   },
 });
 

@@ -26,7 +26,7 @@ const Field = ({ content, onPress }) => {
 };
 
 const CELL_SIZE = 100;
-const BORDER_WIDTH = 4;
+const BORDER_WIDTH = 6;
 
 const fixAndroidBorder = () => {
   if (Platform.OS === 'android') {
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   cell: {
     borderWidth: BORDER_WIDTH,
-    borderColor: 'red',
+    borderColor: 'crimson',
     width: CELL_SIZE,
     height: CELL_SIZE,
     alignItems: 'center',
