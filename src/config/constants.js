@@ -4,6 +4,7 @@ export const MOVE = 'MOVE';
 export const RELOAD = 'RELOAD';
 export const STOP = 'STOP';
 export const MAX_MOVES = 9;
+export const MOVE_DELAY = 1000;
 
 export const WIN_PATTERNS = [
   [0, 1, 2],

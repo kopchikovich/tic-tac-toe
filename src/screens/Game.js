@@ -1,5 +1,5 @@
-import React, {useReducer, useEffect} from 'react';
-import {Alert, SafeAreaView, StyleSheet, View, Button} from 'react-native';
+import React, { useReducer, useEffect } from 'react';
+import { Alert, SafeAreaView, StyleSheet, View, Button } from 'react-native';
 import Field from '../components/Field';
 import {
   CROSS,
@@ -8,27 +8,31 @@ import {
   RELOAD,
   STOP,
   MAX_MOVES,
+  MOVE_DELAY,
   WIN_PATTERNS,
 } from '../config/constants';
+import { getPairs, randomize } from '../utils';
 
 const reducer = (state, action) => {
-  const {type, payload} = action;
-  switch (type) {
+  switch (action.type) {
     case MOVE:
-      const isCross = state.whoseMove === CROSS;
-      const newState = {
+      const nextState = {
         ...state,
-        whoseMove: isCross ? ZERO : CROSS,
+        whoseMove: changePlayer(state.whoseMove),
         moveCounter: state.moveCounter + 1,
       };
-      newState.field[payload.index] = isCross ? CROSS : ZERO;
-      return newState;
+      nextState.field[action.payload.index] = state.whoseMove;
+      return nextState;
     case RELOAD:
       return makeInitialState();
     case STOP:
-      return {...state, moveCounter: MAX_MOVES};
+      return { ...state, moveCounter: MAX_MOVES };
     default:
-      throw new Error('Update state error');
+      throw new Error(
+        'Update state error.',
+        `Current state: ${state}`,
+        `Action: ${action}`,
+      );
   }
 };
 
@@ -38,72 +42,63 @@ const makeInitialState = () => ({
   moveCounter: 0,
 });
 
-const randomize = (maxNum) => Math.floor(Math.random() * maxNum);
+const changePlayer = (currentPlayer) => {
+  return currentPlayer === CROSS ? ZERO : CROSS;
+};
 
 const findWinIndex = (positions, emptyPositions) => {
   let index = null;
-  WIN_PATTERNS.forEach((pattern) => {
-    if (positions.every((pos) => pattern.includes(pos))) {
-      const maybeIndex = pattern.filter((i) => positions.indexOf(i) === -1)[0];
-      if (emptyPositions.includes(maybeIndex)) {
-        index = maybeIndex;
-      }
+  if (positions.length > 2) {
+    const pairs = getPairs(positions);
+    for (let pair of pairs) {
+      index = findWinIndex(pair, emptyPositions);
+      if (index !== null) break;
     }
-  });
+  } else {
+    WIN_PATTERNS.forEach((pattern) => {
+      if (positions.every((pos) => pattern.includes(pos))) {
+        const maybeIndex = pattern.filter(
+          (i) => positions.indexOf(i) === -1,
+        )[0];
+        if (emptyPositions.includes(maybeIndex)) {
+          index = maybeIndex;
+        }
+      }
+    });
+  }
   return index;
 };
 
-const getPairs = (arr) => {
-  // TODO
-
-  if (arr.length === 3) {
-    // [0, 1, 2]
-    return [
-      [arr[0], arr[1]],
-      [arr[0], arr[2]],
-      [arr[1], arr[2]],
-    ];
-  } else if (arr.length === 4) {
-    // [0, 1, 2, 3]
-    return [
-      [arr[0], arr[1]],
-      [arr[0], arr[2]],
-      [arr[0], arr[3]],
-      [arr[1], arr[2]],
-      [arr[1], arr[3]],
-      [arr[2], arr[3]],
-    ];
-  }
+const usePositions = (field) => {
+  const zeroPositions = [];
+  const crossPositions = [];
+  const emptyPositions = [];
+  field.forEach((el, index) => {
+    if (el === CROSS) {
+      crossPositions.push(index);
+    } else if (el === ZERO) {
+      zeroPositions.push(index);
+    } else {
+      emptyPositions.push(index);
+    }
+  });
+  return { zeroPositions, crossPositions, emptyPositions };
 };
 
 const GameScreen = () => {
   const [state, dispatch] = useReducer(reducer, makeInitialState());
 
-  const usePositions = () => {
-    const zeroPositions = [];
-    const crossPositions = [];
-    const emptyPositions = [];
-    state.field.forEach((el, index) => {
-      if (el === CROSS) {
-        crossPositions.push(index);
-      } else if (el === ZERO) {
-        zeroPositions.push(index);
-      } else {
-        emptyPositions.push(index);
-      }
-    });
-    return {zeroPositions, crossPositions, emptyPositions};
-  };
-
   const checkWin = () => {
-    const verifiable = state.whoseMove === CROSS ? ZERO : CROSS;
-    const positions = usePositions()[`${verifiable.toLowerCase()}Positions`];
+    const verifiable = changePlayer(state.whoseMove);
+    const positions = usePositions(state.field)[
+      `${verifiable.toLowerCase()}Positions`
+    ];
     if (positions.length < 3) return;
     const isWin = WIN_PATTERNS.some((pattern) => {
       return pattern.every((pos) => positions.includes(pos));
     });
     if (isWin) {
-      dispatch({type: STOP});
+      dispatch({ type: STOP });
       Alert.alert(verifiable + ' win!');
     } else if (state.moveCounter >= MAX_MOVES) {
       Alert.alert('Draw!');
@@ -120,7 +115,9 @@ const GameScreen = () => {
     ) {
       let index = null;
       const CENTER_INDEX = 4;
-      const {zeroPositions, crossPositions, emptyPositions} = usePositions();
+      const { zeroPositions, crossPositions, emptyPositions } = usePositions(
+        state.field,
+      );
 
       switch (state.moveCounter) {
         case 1:
@@ -132,39 +129,23 @@ const GameScreen = () => {
           index = findWinIndex(crossPositions, emptyPositions);
           break;
         case 5:
+        case 7:
           index = findWinIndex(zeroPositions, emptyPositions);
           if (index === null) {
-            const pairs = getPairs(crossPositions);
-            for (let pair of pairs) {
-              index = findWinIndex(pair, emptyPositions);
-              if (index !== null) break;
-            }
-          }
-          break;
-        case 7:
-          const pairs = getPairs(zeroPositions);
-          for (let pair of pairs) {
-            index = findWinIndex(pair, emptyPositions);
-            if (index !== null) break;
-          }
-          if (index === null) {
-            const pairs = getPairs(crossPositions);
-            for (let pair of pairs) {
-              index = findWinIndex(pair, emptyPositions);
-              if (index !== null) break;
-            }
+            index = findWinIndex(crossPositions, emptyPositions);
           }
           break;
         default:
           break;
       }
-      console.log(`step ${state.moveCounter} index:`, index);
-
       if (index === null) {
         index = emptyPositions[randomize(emptyPositions.length)];
-        console.log(`step ${state.moveCounter} RANDOM index: `, index);
       }
-      setTimeout(() => dispatch({type: MOVE, payload: {index}}), 1000);
+
+      setTimeout(
+        () => dispatch({ type: MOVE, payload: { index } }),
+        MOVE_DELAY,
+      );
     }
   }, [state.whoseMove]);
 
@@ -174,7 +155,7 @@ const GameScreen = () => {
       state.field[index] === null &&
       state.moveCounter < MAX_MOVES
     ) {
-      dispatch({type: MOVE, payload: {index}});
+      dispatch({ type: MOVE, payload: { index } });
     }
   };
 
@@ -185,7 +166,7 @@ const GameScreen = () => {
         <View style={styles.reloadBtn}>
           <Button
             title="Start again?"
-            onPress={() => dispatch({type: RELOAD})}
+            onPress={() => dispatch({ type: RELOAD })}
           />
         </View>
       )}
