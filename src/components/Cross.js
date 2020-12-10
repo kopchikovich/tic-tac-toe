@@ -1,24 +1,24 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import { Text, Platform, StyleSheet } from 'react-native';
 
 const Cross = () => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.item}>+</Text>
-    </View>
-  );
+  return <Text style={styles.item}>+</Text>;
+};
+
+const fixPosition = () => {
+  return Platform.select({
+    ios: {
+      transform: [{ rotate: '45deg' }, { translateX: 2 }, { translateY: -18 }],
+    },
+    android: { transform: [{ rotate: '46deg' }, { translateY: -4 }] },
+  });
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   item: {
     fontSize: 100,
-    transform: [{rotate: '-45deg'}, {translateX: -2}, {translateY: -18}],
     color: 'blue',
+    ...fixPosition(),
   },
 });
 

@@ -1,17 +1,20 @@
 import React from 'react';
-import {View, TouchableWithoutFeedback, StyleSheet} from 'react-native';
-import {ZERO, CROSS} from '../config/constants';
+import {
+  View,
+  TouchableWithoutFeedback,
+  Platform,
+  StyleSheet,
+} from 'react-native';
+import { ZERO, CROSS } from '../config/constants';
 import Cross from './Cross';
 import Zero from './Zero';
 
-const Field = ({content, onPress}) => {
+const Field = ({ content, onPress }) => {
   return (
     <View style={styles.container}>
       {content.map((cell, index) => {
         return (
-          <TouchableWithoutFeedback
-            key={index}
-            onPress={() => onPress(index)}>
+          <TouchableWithoutFeedback key={index} onPress={() => onPress(index)}>
             <View style={[styles.cell, styles[`cell-${index + 1}`]]}>
               {cell === ZERO ? <Zero /> : cell === CROSS ? <Cross /> : null}
             </View>
@@ -23,6 +26,18 @@ const Field = ({content, onPress}) => {
 };
 
 const CELL_SIZE = 100;
+const BORDER_WIDTH = 4;
+
+const fixAndroidBorder = () => {
+  if (Platform.OS === 'android') {
+    return {
+      borderBottomWidth: BORDER_WIDTH + 1,
+      transform: [{ translateY: 1 }],
+    };
+  } else {
+    return {};
+  }
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -32,21 +47,26 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   cell: {
-    borderWidth: 4,
+    borderWidth: BORDER_WIDTH,
     borderColor: 'red',
     width: CELL_SIZE,
     height: CELL_SIZE,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   'cell-1': {
     borderLeftWidth: 0,
     borderTopWidth: 0,
+    ...fixAndroidBorder(),
   },
   'cell-2': {
     borderTopWidth: 0,
+    ...fixAndroidBorder(),
   },
   'cell-3': {
     borderTopWidth: 0,
     borderRightWidth: 0,
+    ...fixAndroidBorder(),
   },
   'cell-4': {
     borderLeftWidth: 0,
