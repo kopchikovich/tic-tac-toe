@@ -9,7 +9,7 @@ import { ZERO, CROSS } from '../config/constants';
 import Cross from './Cross';
 import Zero from './Zero';
 
-const Field = ({ content, onPress }) => {
+const Field = ({ content, onPress, isWin }) => {
   return (
     <View style={styles.container}>
       {content.map((cell, index) => {
@@ -21,6 +21,7 @@ const Field = ({ content, onPress }) => {
           </TouchableWithoutFeedback>
         );
       })}
+      {isWin && <View style={styles.winLine} />}
     </View>
   );
 };
@@ -85,6 +86,14 @@ const styles = StyleSheet.create({
   'cell-9': {
     borderRightWidth: 0,
     borderBottomWidth: 0,
+  },
+  winLine: {
+    width: BORDER_WIDTH * 2,
+    height: CELL_SIZE * 3,
+    backgroundColor: 'limegreen',
+    position: 'absolute',
+    top: 0,
+    left: CELL_SIZE / 2 - (BORDER_WIDTH + BORDER_WIDTH / 2),
   },
 });
 

@@ -42,6 +42,7 @@ const makeInitialState = () => ({
   whoseMove: CROSS,
   field: new Array(9).fill(null),
   moveCounter: 0,
+  winner: null,
 });
 
 const changePlayer = (currentPlayer) => {
@@ -143,6 +144,13 @@ const GameScreen = ({ navigation }) => {
     ) {
       let index = null;
       const CENTER_INDEX = 4;
+      const CORNERS = [0, 2, 6, 8];
+      const OPPOSITE_CORNERS = {
+        13: 8,
+        15: 6,
+        37: 2,
+        57: 0,
+      };
       const { zeroPositions, crossPositions, emptyPositions } = usePositions(
         state.field,
       );
@@ -151,10 +159,29 @@ const GameScreen = ({ navigation }) => {
         case 1:
           if (state.field[CENTER_INDEX] === null) {
             index = CENTER_INDEX;
+          } else {
+            index = CORNERS[randomize(CORNERS.length)];
           }
           break;
         case 3:
           index = findWinIndex(crossPositions, emptyPositions);
+          if (index === null) {
+            let maybePositions = CORNERS.filter(
+              (el) => !crossPositions.includes(el),
+            );
+            if (maybePositions.length === 4) {
+              maybePositions = CORNERS.filter(
+                (el) => el !== OPPOSITE_CORNERS[crossPositions.join('')],
+              );
+            } else if (maybePositions.length === 3) {
+              // TODO
+            } else if (maybePositions.length === 2) {
+              maybePositions = emptyPositions.filter(
+                (el) => !maybePositions.includes(el),
+              );
+            }
+            index = maybePositions[randomize(maybePositions.length)];
+          }
           break;
         case 5:
         case 7:
