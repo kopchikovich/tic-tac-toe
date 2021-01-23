@@ -14,6 +14,7 @@ import {
   CENTER_INDEX,
   CORNERS,
   OPPOSITE_CORNERS,
+  OVERLAP_CORNERS,
 } from '../config/constants';
 import { getPairs, randomize } from '../utils';
 import { Field, Button } from '../components';
@@ -169,7 +170,9 @@ const GameScreen = ({ navigation }) => {
                 (el) => el !== OPPOSITE_CORNERS[crossPositions.join('')],
               );
             } else if (maybePositions.length === 3) {
-              // TODO
+              maybePositions = CORNERS.filter(
+                (el) => el === OVERLAP_CORNERS[crossPositions.join('')],
+              );
             } else if (maybePositions.length === 2) {
               maybePositions = emptyPositions.filter(
                 (el) => !maybePositions.includes(el),

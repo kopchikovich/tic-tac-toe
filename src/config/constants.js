@@ -10,10 +10,20 @@ export const MOVE_DELAY = 1000;
 export const CENTER_INDEX = 4;
 export const CORNERS = [0, 2, 6, 8];
 export const OPPOSITE_CORNERS = {
-  13: 8,
-  15: 6,
-  37: 2,
-  57: 0,
+  '13': 8,
+  '15': 6,
+  '37': 2,
+  '57': 0,
+};
+export const OVERLAP_CORNERS = {
+  '05': 2,
+  '07': 6,
+  '16': 0,
+  '18': 2,
+  '23': 0,
+  '27': 8,
+  '38': 6,
+  '56': 8,
 };
 export const WIN_PATTERNS = [
   [0, 1, 2],
