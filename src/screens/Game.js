@@ -165,14 +165,14 @@ const GameScreen = ({ navigation }) => {
             let maybePositions = CORNERS.filter(
               (el) => !crossPositions.includes(el),
             );
+            const crossIndex = crossPositions.join('');
             if (maybePositions.length === 4) {
-              maybePositions = CORNERS.filter(
-                (el) => el !== OPPOSITE_CORNERS[crossPositions.join('')],
+              maybePositions = maybePositions.filter(
+                (el) => el !== OPPOSITE_CORNERS[crossIndex],
               );
             } else if (maybePositions.length === 3) {
-              maybePositions = CORNERS.filter(
-                (el) => el === OVERLAP_CORNERS[crossPositions.join('')],
-              );
+              const overlapCorner = OVERLAP_CORNERS[crossIndex];
+              maybePositions = overlapCorner ? [overlapCorner] : maybePositions;
             } else if (maybePositions.length === 2) {
               maybePositions = emptyPositions.filter(
                 (el) => !maybePositions.includes(el),
