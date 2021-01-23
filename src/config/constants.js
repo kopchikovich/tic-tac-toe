@@ -7,6 +7,14 @@ export const RESULT = 'RESULT';
 export const MAX_MOVES = 9;
 export const MOVE_DELAY = 1000;
 
+export const CENTER_INDEX = 4;
+export const CORNERS = [0, 2, 6, 8];
+export const OPPOSITE_CORNERS = {
+  13: 8,
+  15: 6,
+  37: 2,
+  57: 0,
+};
 export const WIN_PATTERNS = [
   [0, 1, 2],
   [3, 4, 5],

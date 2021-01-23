@@ -11,6 +11,9 @@ import {
   MAX_MOVES,
   MOVE_DELAY,
   WIN_PATTERNS,
+  CENTER_INDEX,
+  CORNERS,
+  OPPOSITE_CORNERS,
 } from '../config/constants';
 import { getPairs, randomize } from '../utils';
 import { Field, Button } from '../components';
@@ -143,14 +146,6 @@ const GameScreen = ({ navigation }) => {
       !isFinish
     ) {
       let index = null;
-      const CENTER_INDEX = 4;
-      const CORNERS = [0, 2, 6, 8];
-      const OPPOSITE_CORNERS = {
-        13: 8,
-        15: 6,
-        37: 2,
-        57: 0,
-      };
       const { zeroPositions, crossPositions, emptyPositions } = usePositions(
         state.field,
       );
