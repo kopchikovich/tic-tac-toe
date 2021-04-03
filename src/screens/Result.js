@@ -41,7 +41,7 @@ const ResultScreen = ({ navigation }) => {
       </View>
       <Button
         title="MENU"
-        onPress={() => navigation.goBack()}
+        onPress={navigation.goBack}
         style={styles.menuButton}
       />
     </SafeAreaView>

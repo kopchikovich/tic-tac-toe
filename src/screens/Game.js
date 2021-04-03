@@ -1,25 +1,37 @@
 import React, { useReducer, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Alert, SafeAreaView, StyleSheet, View } from 'react-native';
 import {
-  CROSS,
+  View,
+  Alert,
+  StyleSheet,
+  SafeAreaView,
+  LayoutAnimation,
+} from 'react-native';
+import {
+  STOP,
   ZERO,
   MOVE,
-  RELOAD,
-  STOP,
+  CROSS,
   RESULT,
+  RELOAD,
+  CORNERS,
   MAX_MOVES,
   MOVE_DELAY,
   WIN_PATTERNS,
   CENTER_INDEX,
-  CORNERS,
-  OPPOSITE_CORNERS,
   OVERLAP_CORNERS,
+  OPPOSITE_CORNERS,
 } from '../config/constants';
 import { getPairs, randomize } from '../utils';
 import { Field, Button } from '../components';
 
+const animationConfig = {
+  ...LayoutAnimation.Presets.easeInEaseOut,
+  duration: 150,
+};
+
 const reducer = (state, action) => {
+  LayoutAnimation.configureNext(animationConfig);
   switch (action.type) {
     case MOVE:
       const nextState = {

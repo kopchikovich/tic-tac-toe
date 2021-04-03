@@ -1,8 +1,15 @@
 import 'react-native-gesture-handler';
 import React from 'react';
+import { Platform, UIManager } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { HomeScreen, GameScreen, ResultScreen } from './src/screens';
+
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 const Stack = createStackNavigator();
 
