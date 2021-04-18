@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaView, Image, View, Text, StyleSheet } from 'react-native';
-import { CROSS, ZERO, RESULT } from '../config/constants';
+import { CROSS, ZERO, RESULT, Colors } from '../config';
 import { Cross, Zero, Button } from '../components';
 
 const SOME = 'some';
@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 24,
     marginLeft: 20,
+    color: Colors.text,
   },
   emptyElement: {
     width: 70,

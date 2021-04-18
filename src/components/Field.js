@@ -5,7 +5,7 @@ import {
   Platform,
   StyleSheet,
 } from 'react-native';
-import { ZERO, CROSS } from '../config/constants';
+import { ZERO, CROSS, Colors } from '../config';
 import Cross from './Cross';
 import Zero from './Zero';
 
@@ -21,7 +21,7 @@ const Field = ({ content, onPress, isWin }) => {
           </TouchableWithoutFeedback>
         );
       })}
-      {isWin && <View style={styles.winLine} />}
+      {/* {isWin && <View style={styles.winLine} />} */}
     </View>
   );
 };
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   cell: {
     borderWidth: BORDER_WIDTH,
-    borderColor: 'crimson',
+    borderColor: Colors.border,
     width: CELL_SIZE,
     height: CELL_SIZE,
     alignItems: 'center',
@@ -87,14 +87,14 @@ const styles = StyleSheet.create({
     borderRightWidth: 0,
     borderBottomWidth: 0,
   },
-  winLine: {
-    width: BORDER_WIDTH * 2,
-    height: CELL_SIZE * 3,
-    backgroundColor: 'limegreen',
-    position: 'absolute',
-    top: 0,
-    left: CELL_SIZE / 2 - (BORDER_WIDTH + BORDER_WIDTH / 2),
-  },
+  // winLine: {
+  //   width: BORDER_WIDTH * 2,
+  //   height: CELL_SIZE * 3,
+  //   backgroundColor: 'limegreen',
+  //   position: 'absolute',
+  //   top: 0,
+  //   left: CELL_SIZE / 2 - (BORDER_WIDTH + BORDER_WIDTH / 2),
+  // },
 });
 
 export default Field;
