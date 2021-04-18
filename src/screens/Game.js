@@ -16,11 +16,11 @@ const GameScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={style.container}>
       <Field content={state.field} onPress={makeMove} />
       {state.moveCounter >= MAX_MOVES && (
         <View>
-          <View style={styles.buttons}>
+          <View style={style.buttons}>
             <Button
               title="PLAY AGAIN?"
               onPress={() => dispatch({ type: RELOAD })}
@@ -33,7 +33,7 @@ const GameScreen = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',

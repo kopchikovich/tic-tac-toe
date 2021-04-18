@@ -9,19 +9,19 @@ import { ZERO, CROSS, Colors } from '../config';
 import Cross from './Cross';
 import Zero from './Zero';
 
-const Field = ({ content, onPress, isWin }) => {
+const Field = ({ content, onPress }) => {
   return (
-    <View style={styles.container}>
+    <View style={style.container}>
       {content.map((cell, index) => {
         return (
           <TouchableWithoutFeedback key={index} onPress={() => onPress(index)}>
-            <View style={[styles.cell, styles[`cell-${index + 1}`]]}>
+            <View style={[style.cell, style[`cell-${index + 1}`]]}>
               {cell === ZERO ? <Zero /> : cell === CROSS ? <Cross /> : null}
             </View>
           </TouchableWithoutFeedback>
         );
       })}
-      {/* {isWin && <View style={styles.winLine} />} */}
+      {/* {isWin && <View style={style.winLine} />} */}
     </View>
   );
 };
@@ -40,7 +40,7 @@ const fixAndroidBorder = () => {
   }
 };
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
     width: CELL_SIZE * 3,
     height: CELL_SIZE * 3,

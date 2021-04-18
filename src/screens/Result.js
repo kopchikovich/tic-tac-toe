@@ -21,34 +21,36 @@ const ResultScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.row}>
-        <Cross />
-        <Text style={styles.text}>Win {result.win[CROSS]} times</Text>
+    <SafeAreaView style={style.container}>
+      <View style={style.row}>
+        <View style={style.box}>
+          <Cross />
+        </View>
+        <Text style={style.text}>Win {result.win[CROSS]} times</Text>
       </View>
-      <View style={styles.row}>
-        <Zero />
-        <Text style={[styles.text, { marginLeft: 23 }]}>
+      <View style={style.row}>
+        <View style={style.box}>
+          <Zero />
+        </View>
+        <Text style={[style.text, { marginLeft: 23 }]}>
           Win {result.win[ZERO]} times
         </Text>
       </View>
-      <View style={styles.row}>
+      <View style={style.row}>
         <Image
-          style={styles.emptyElement}
+          style={style.emptyElement}
           source={require('../../assets/draw.png')}
         />
-        <Text style={styles.text}>Draw {result.draw} times</Text>
+        <Text style={style.text}>Draw {result.draw} times</Text>
       </View>
-      <Button
-        title="MENU"
-        onPress={navigation.goBack}
-        style={styles.menuButton}
-      />
+      <View style={style.menuButton}>
+        <Button title="MENU" onPress={navigation.goBack} />
+      </View>
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -61,14 +63,18 @@ const styles = StyleSheet.create({
     width: 200,
     marginTop: 10,
   },
+  box: {
+    width: 60,
+    height: 60,
+  },
   text: {
     fontSize: 24,
     marginLeft: 20,
     color: Colors.text,
   },
   emptyElement: {
-    width: 70,
-    height: 70,
+    width: 60,
+    height: 60,
     resizeMode: 'contain',
   },
   menuButton: {

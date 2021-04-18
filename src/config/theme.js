@@ -4,6 +4,6 @@ export const Colors = {
   button: '#ADFA8F',
   text: '#AD5451',
   border: '#FA8582',
-  cross: '',
-  zero: '',
+  cross: '#9174AD',
+  zero: '#CB9BFA',
 };

@@ -4,17 +4,14 @@ import { Button } from '../components';
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={style.container}>
       <Button title="START GAME" onPress={() => navigation.navigate('Game')} />
-      <Button
-        title="RESULTS"
-        onPress={() => navigation.navigate('Result')}
-      />
+      <Button title="RESULTS" onPress={() => navigation.navigate('Result')} />
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',

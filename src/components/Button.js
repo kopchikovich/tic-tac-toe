@@ -2,17 +2,17 @@ import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { Colors } from '../config';
 
-const Button = ({ title, onPress, style }) => {
+const Button = ({ title, onPress }) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <View style={[styles.container, style]}>
-        <Text style={styles.text}>{title}</Text>
+      <View style={style.container}>
+        <Text style={style.text}>{title}</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
     width: 200,
     height: 40,
