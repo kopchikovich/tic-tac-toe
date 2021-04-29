@@ -3,12 +3,12 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'TicTacToe' do
+target 'ImpossibleTicTacToe' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
-  target 'TicTacToeTests' do
+  target 'ImpossibleTicTacToeTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -23,10 +23,10 @@ target 'TicTacToe' do
   end
 end
 
-target 'TicTacToe-tvOS' do
-  # Pods for TicTacToe-tvOS
+target 'ImpossibleTicTacToe-tvOS' do
+  # Pods for ImpossibleTicTacToe-tvOS
 
-  target 'TicTacToe-tvOSTests' do
+  target 'ImpossibleTicTacToe-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
